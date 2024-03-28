@@ -1,4 +1,7 @@
-package org.example.db;
+package org.example.db.impl;
+
+import org.example.db.ConnectionManager;
+import org.example.db.DataSource;
 
 import java.sql.Connection;
 import java.sql.SQLException;

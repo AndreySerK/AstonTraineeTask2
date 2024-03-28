@@ -1,7 +1,7 @@
 package org.example.repository.impl;
 
 import org.example.db.ConnectionManager;
-import org.example.db.ConnectionManagerImpl;
+import org.example.db.impl.ConnectionManagerImpl;
 import org.example.model.Course;
 import org.example.repository.CourseRepository;
 import org.example.repository.mapper.CourseResultSetMapper;

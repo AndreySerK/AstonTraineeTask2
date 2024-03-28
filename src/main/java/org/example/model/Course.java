@@ -1,22 +1,22 @@
 package org.example.model;
 
-import java.util.Set;
+import java.util.List;
 
 public class Course {
     private Integer id;
     private String courseName;
     private int studyYear;
-    private Set<Student> students;
-    private University university;
+    private List<Student> students;
+    private int universityId;
 
     public Course() {}
 
-    public Course(Integer id, String name, int studyYear, Set<Student> students, University university) {
+    public Course(Integer id, String name, int studyYear, List<Student> students, int university) {
         this.id = id;
         this.courseName = name;
         this.studyYear = studyYear;
         this.students = students;
-        this.university = university;
+        this.universityId = university;
     }
 
     public Integer getId() {
@@ -43,19 +43,19 @@ public class Course {
         this.studyYear = studyYear;
     }
 
-    public Set<Student> getStudents() {
+    public List<Student> getStudents() {
         return students;
     }
 
-    public University getUniversity() {
-        return university;
+    public int getUniversityId() {
+        return universityId;
     }
 
-    public void setStudents(Set<Student> students) {
+    public void setStudents(List<Student> students) {
         this.students = students;
     }
 
-    public void setUniversity(University university) {
-        this.university = university;
+    public void setUniversityId(int universityId) {
+        this.universityId = universityId;
     }
 }
