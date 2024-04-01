@@ -4,27 +4,27 @@ import org.example.model.Course;
 import org.example.repository.CourseRepository;
 import org.example.repository.impl.CourseRepositoryImpl;
 import org.example.service.CourseService;
+import org.example.service.SimpleService;
 
 import java.util.List;
-import java.util.UUID;
 
 public class CourseServiceImpl implements CourseService {
 
     CourseRepository repository = new CourseRepositoryImpl();
 
     @Override
-    public Course save(Course course) {
-        return null;
+    public void save(Course course) {
+        repository.save(course);
     }
 
     @Override
-    public Course findById(int id) {
+    public Course findById(Integer id) {
         return repository.findById(id);
     }
 
     @Override
-    public Course deleteById(int id) {
-        return null;
+    public boolean deleteById(Integer id) {
+        return repository.deleteById(id);
     }
 
     @Override

@@ -1,17 +1,11 @@
-package org.example.servlet.dto;
+package org.example.servlet.dto.course;
 
-
-public class CourseDto {
-
+public class IncomingCourseDto {
     private String courseName;
     private int studyYear;
+    private int universityId;
 
-    public CourseDto() {
-    }
-
-    public CourseDto(String courseName, int studyYear) {
-        this.courseName = courseName;
-        this.studyYear = studyYear;
+    public IncomingCourseDto() {
     }
 
     public String getCourseName() {
@@ -28,5 +22,13 @@ public class CourseDto {
 
     public void setStudyYear(int studyYear) {
         this.studyYear = studyYear;
+    }
+
+    public int getUniversityId() {
+        return universityId;
+    }
+
+    public void setUniversityId(int universityId) {
+        this.universityId = universityId;
     }
 }

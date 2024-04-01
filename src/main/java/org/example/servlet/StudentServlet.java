@@ -6,14 +6,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.model.Course;
-import org.example.service.CourseService;
-import org.example.service.SimpleService;
-import org.example.service.impl.CourseServiceImpl;
-import org.example.servlet.dto.course.CourseDto;
-import org.example.servlet.dto.course.IncomingCourseDto;
-import org.example.servlet.mapper.course.CourseDtoMapper;
-import org.example.servlet.mapper.student.StudentListMapper;
+import org.example.model.Student;
+import org.example.service.StudentService;
+import org.example.service.impl.StudentServiceImpl;
+import org.example.servlet.dto.student.StudentDto;
+import org.example.servlet.mapper.student.StudentDtoMapper;
 import org.mapstruct.factory.Mappers;
 
 import java.io.BufferedReader;
@@ -23,22 +20,20 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @WebServlet(urlPatterns = "/")
-public class CourseServlet extends HttpServlet {
-
-    private CourseService service = new CourseServiceImpl();
-    private CourseDtoMapper courseDtoMapper = Mappers.getMapper(CourseDtoMapper.class);
-    private StudentListMapper studentListMapper = Mappers.getMapper(StudentListMapper.class);
+public class StudentServlet extends HttpServlet {
+    
+    private StudentService service = new StudentServiceImpl();
+    private StudentDtoMapper mapper = Mappers.getMapper(StudentDtoMapper.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         String action = req.getServletPath();
         System.out.println(action);
         switch (action) {
-            case "/course/get" -> getById(req,resp);
-            case "/course/all" -> getAll(req,resp);
-            case "/course/delete" -> deleteById(req,resp);
+            case "/student/get" -> getById(req,resp);
+            case "/student/all" -> getAll(req,resp);
+            case "/student/delete" -> deleteById(req,resp);
             default -> printError(resp);
         }
     }
@@ -46,7 +41,7 @@ public class CourseServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
-        if (action.equals("/course/save")) {
+        if (action.equals("/student/save")) {
             StringBuilder requestBody = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(req.getInputStream()))) {
@@ -55,8 +50,8 @@ public class CourseServlet extends HttpServlet {
                     requestBody.append(line);
                 }
             }
-            IncomingCourseDto dto = new Gson().fromJson(requestBody.toString(), IncomingCourseDto.class);
-            service.save(courseDtoMapper.toEntity(dto));
+            StudentDto dto = new Gson().fromJson(requestBody.toString(), StudentDto.class);
+            service.save(mapper.toEntity(dto));
             printResult("Object saved", resp);
         } else {
             printResult("Wrong url", resp);
@@ -65,17 +60,16 @@ public class CourseServlet extends HttpServlet {
 
     private void getById (HttpServletRequest req, HttpServletResponse resp) {
         int id = Integer.parseInt(req.getParameter("id"));// Our Id from request
-        Course byId = service.findById(id);
-        CourseDto dto = courseDtoMapper.toDto(byId);
-        dto.setStudents(studentListMapper.toDtoList(byId.getStudents()));
+        Student byId = service.findById(id);
+        StudentDto dto = mapper.toDto(byId);
         String dtoJsonString = new Gson().toJson(dto);
         printResult(dtoJsonString,resp);
     }
 
     private void getAll(HttpServletRequest req, HttpServletResponse resp) {
-        List<CourseDto> courses = new ArrayList<>();
-        service.findAll().forEach(c -> courses.add(courseDtoMapper.toDto(c)));
-        String dtoJsonString = new Gson().toJson(courses);
+        List<StudentDto> students = new ArrayList<>();
+        service.findAll().forEach(c -> students.add(mapper.toDto(c)));
+        String dtoJsonString = new Gson().toJson(students);
         printResult(dtoJsonString,resp);
     }
 

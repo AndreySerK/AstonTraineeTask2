@@ -8,16 +8,18 @@ public class University {
     private int id;
     private String name;
     private String city;
+    private String country;
     private List<Student> students;
     private List<Course> courses;
 
     public University() {
     }
 
-    public University(int id, String name, String city, List<Student> students, List<Course> courses) {
+    public University(int id, String name, String city, String country, List<Student> students, List<Course> courses) {
         this.id = id;
         this.name = name;
         this.city = city;
+        this.country = country;
         this.students = students;
         this.courses = courses;
     }
@@ -44,6 +46,14 @@ public class University {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String city) {
+        this.country = country;
     }
 
     public List<Student> getStudents() {

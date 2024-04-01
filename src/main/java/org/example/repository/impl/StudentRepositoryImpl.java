@@ -2,49 +2,38 @@ package org.example.repository.impl;
 
 import org.example.db.ConnectionManager;
 import org.example.db.impl.ConnectionManagerImpl;
-import org.example.model.Course;
 import org.example.model.Student;
-import org.example.repository.CourseRepository;
-import org.example.repository.mapper.impl.CourseResultSetMapperImpl;
+import org.example.repository.StudentRepository;
 import org.example.repository.mapper.ResultSetMapper;
 import org.example.repository.mapper.impl.StudentResultSetMapperImpl;
 
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class CourseRepositoryImpl implements CourseRepository {
-    public static final String FIND_COURSE_BY_ID =
-            "SELECT * FROM courses WHERE id = ?";
-    public static final String FIND_STUDENTS_BY_COURSE_ID =
-            "SELECT students.* FROM students " +
-                    "JOIN students_courses " +
-                    "ON students.id = students_courses.student_id " +
-                    "WHERE students_courses.course_id = ?";
+public class StudentRepositoryImpl implements StudentRepository {
+    public static final String FIND_STUDENT_BY_ID =
+            "SELECT * FROM students WHERE id = ?";
     public static final String DELETE_FROM_STUDENTS_COURSES =
-            "DELETE FROM students_courses WHERE course_id = ?";
-    public static final String DELETE_FROM_COURSES =
-            "DELETE FROM courses WHERE id = ?";
-    private ResultSetMapper<Course> courseMapper = new CourseResultSetMapperImpl();
+            "DELETE FROM students_courses WHERE student_id = ?";
+    public static final String DELETE_FROM_STUDENTS =
+            "DELETE FROM students WHERE id = ?";
     private ResultSetMapper<Student> studentMapper = new StudentResultSetMapperImpl();
     private ConnectionManager connectionManager = new ConnectionManagerImpl();
     private ResultSet resultSet;
-    private Course course;
 
     @Override
-    public Course findById(Integer id) {
+    public Student findById(Integer id) {
         // Здесь используем try with resources
         try (Connection conn = connectionManager.getConnection();
-             PreparedStatement st1 = conn.prepareStatement(FIND_COURSE_BY_ID);
-             PreparedStatement st2 = conn.prepareStatement(FIND_STUDENTS_BY_COURSE_ID)) {
+             PreparedStatement st1 = conn.prepareStatement(FIND_STUDENT_BY_ID)) {
             st1.setInt(1, id);
-            st2.setInt(1, id);
             ResultSet rs1 = st1.executeQuery();
-            ResultSet rs2 = st2.executeQuery();
-            course = courseMapper.map(rs1);
-            course.setStudents(studentMapper.listMap(rs2));
-            return course;
+            return studentMapper.map(rs1);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -55,7 +44,7 @@ public class CourseRepositoryImpl implements CourseRepository {
         try (Connection conn = connectionManager.getConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement st1 = conn.prepareStatement(DELETE_FROM_STUDENTS_COURSES);
-                 PreparedStatement st2 = conn.prepareStatement(DELETE_FROM_COURSES)) {
+                 PreparedStatement st2 = conn.prepareStatement(DELETE_FROM_STUDENTS)) {
                 st1.setInt(1, id);
                 st2.setInt(1, id);
                 st1.executeUpdate();
@@ -72,26 +61,28 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     @Override
-    public List<Course> findAll() {
-        List<Course> courses = new ArrayList<>();
+    public List<Student> findAll() {
+        List<Student> students = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "SELECT * FROM courses")) {
+                     "SELECT * FROM students")) {
             resultSet = preparedStatement.executeQuery();
-            return courseMapper.listMap(resultSet);
+            return studentMapper.listMap(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void save(Course course) {
+    public void save(Student student) {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "INSERT INTO courses (course_name, study_year, university_id) values (?,?,?)")) {
-            preparedStatement.setString(1, course.getCourseName());
-            preparedStatement.setInt(2, course.getStudyYear());
-            preparedStatement.setInt(3, course.getUniversityId());
+                     "INSERT INTO students (first_name,second_name,age,from_city, university_id) values (?,?,?,?,?)")) {
+            preparedStatement.setString(1, student.getFirstName());
+            preparedStatement.setString(2, student.getSecondName());
+            preparedStatement.setInt(2, student.getAge());
+            preparedStatement.setString(2, student.getFrom());
+            preparedStatement.setInt(5, student.getUniversityId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

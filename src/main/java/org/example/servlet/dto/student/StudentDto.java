@@ -1,37 +1,21 @@
-package org.example.model;
+package org.example.servlet.dto.student;
 
-
-import java.util.List;
-
-public class Student {
-
-    private int id;
+public class StudentDto {
     private String firstName;
     private String secondName;
     private int age;
     private String from;
     private int universityId;
-    private List<Course> courses;
 
-    public Student() {
+    public StudentDto() {
     }
 
-    public Student(int id, String firstName, String secondName, Integer age, String from, int universityId, List<Course> courses) {
-        this.id = id;
+    public StudentDto(String firstName, String secondName, int age, String from, int universityId) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.age = age;
         this.from = from;
         this.universityId = universityId;
-        this.courses = courses;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -50,11 +34,11 @@ public class Student {
         this.secondName = secondName;
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -72,13 +56,5 @@ public class Student {
 
     public void setUniversityId(int universityId) {
         this.universityId = universityId;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
     }
 }
