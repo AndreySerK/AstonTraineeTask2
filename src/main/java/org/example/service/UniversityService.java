@@ -1,2 +1,6 @@
-package org.example.service;public interface UniversityService {
+package org.example.service;
+
+import org.example.model.University;
+
+public interface UniversityService extends SimpleService<University, Integer> {
 }

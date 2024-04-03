@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
 import org.example.model.Student;
 import org.example.service.StudentService;
 import org.example.service.impl.StudentServiceImpl;
@@ -20,7 +21,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/")
+@WebServlet(urlPatterns =
+        {"/student/get", "/student/all","/student/delete","/student/save"})
 public class StudentServlet extends HttpServlet {
     
     private StudentService service = new StudentServiceImpl();
@@ -42,15 +44,8 @@ public class StudentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
         if (action.equals("/student/save")) {
-            StringBuilder requestBody = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(req.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    requestBody.append(line);
-                }
-            }
-            StudentDto dto = new Gson().fromJson(requestBody.toString(), StudentDto.class);
+            String requestBody = IOUtils.toString(req.getReader());
+            StudentDto dto = new Gson().fromJson(requestBody, StudentDto.class);
             service.save(mapper.toEntity(dto));
             printResult("Object saved", resp);
         } else {

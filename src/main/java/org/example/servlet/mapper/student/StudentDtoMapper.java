@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface StudentDtoMapper {
+
     Student toEntity(StudentDto dto);
 
     StudentDto toDto(Student student);

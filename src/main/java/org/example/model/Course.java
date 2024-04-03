@@ -1,9 +1,10 @@
 package org.example.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Course {
-    private Integer id;
+    private java.lang.Integer id;
     private String courseName;
     private int studyYear;
     private List<Student> students;
@@ -11,19 +12,19 @@ public class Course {
 
     public Course() {}
 
-    public Course(Integer id, String name, int studyYear, List<Student> students, int university) {
+    public Course(java.lang.Integer id, String name, int studyYear, List<Student> students, int universityId) {
         this.id = id;
         this.courseName = name;
         this.studyYear = studyYear;
         this.students = students;
-        this.universityId = university;
+        this.universityId = universityId;
     }
 
-    public Integer getId() {
+    public java.lang.Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(java.lang.Integer id) {
         this.id = id;
     }
 
@@ -57,5 +58,18 @@ public class Course {
 
     public void setUniversityId(int universityId) {
         this.universityId = universityId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return studyYear == course.studyYear && universityId == course.universityId && Objects.equals(id, course.id) && Objects.equals(courseName, course.courseName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, courseName, studyYear, universityId);
     }
 }

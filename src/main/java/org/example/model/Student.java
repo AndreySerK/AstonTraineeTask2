@@ -2,6 +2,7 @@ package org.example.model;
 
 
 import java.util.List;
+import java.util.Objects;
 
 public class Student {
 
@@ -16,7 +17,7 @@ public class Student {
     public Student() {
     }
 
-    public Student(int id, String firstName, String secondName, Integer age, String from, int universityId, List<Course> courses) {
+    public Student(int id, String firstName, String secondName, int age, String from, int universityId, List<Course> courses) {
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -50,11 +51,11 @@ public class Student {
         this.secondName = secondName;
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -80,5 +81,18 @@ public class Student {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return id == student.id && age == student.age && universityId == student.universityId && Objects.equals(firstName, student.firstName) && Objects.equals(secondName, student.secondName) && Objects.equals(from, student.from);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, secondName, age, from, universityId);
     }
 }

@@ -8,6 +8,12 @@ public class IncomingCourseDto {
     public IncomingCourseDto() {
     }
 
+    public IncomingCourseDto(String courseName, int studyYear, int universityId) {
+        this.courseName = courseName;
+        this.studyYear = studyYear;
+        this.universityId = universityId;
+    }
+
     public String getCourseName() {
         return courseName;
     }

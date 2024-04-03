@@ -80,8 +80,8 @@ public class StudentRepositoryImpl implements StudentRepository {
                      "INSERT INTO students (first_name,second_name,age,from_city, university_id) values (?,?,?,?,?)")) {
             preparedStatement.setString(1, student.getFirstName());
             preparedStatement.setString(2, student.getSecondName());
-            preparedStatement.setInt(2, student.getAge());
-            preparedStatement.setString(2, student.getFrom());
+            preparedStatement.setInt(3, student.getAge());
+            preparedStatement.setString(4, student.getFrom());
             preparedStatement.setInt(5, student.getUniversityId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

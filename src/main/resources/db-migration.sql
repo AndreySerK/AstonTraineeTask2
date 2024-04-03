@@ -1,3 +1,16 @@
+
+DROP TABLE IF EXISTS universities CASCADE;
+CREATE TABLE universities
+(
+    id            INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name   VARCHAR(255),
+    city   VARCHAR(255),
+    country VARCHAR(255)
+);
+
+INSERT INTO universities (name, city, country) VALUES ('Harvard', 'Cambridge', 'USA');
+INSERT INTO universities (name, city, country) VALUES ('LBS', 'London', 'England');
+
 DROP TABLE IF EXISTS courses CASCADE ;
 CREATE TABLE courses
 (
@@ -17,18 +30,6 @@ INSERT INTO courses (course_name, study_year, university_id)
 VALUES ('Management', 2021, 1);
 INSERT INTO courses (course_name, study_year, university_id)
 VALUES ('Biology', 2021, 2);
-
-DROP TABLE IF EXISTS universities CASCADE;
-CREATE TABLE universities
-(
-    id            INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name   VARCHAR(255),
-    city   VARCHAR(255),
-    country VARCHAR(255)
-);
-
-INSERT INTO universities (name, city, country) VALUES ('Harvard', 'Cambridge', 'USA');
-INSERT INTO universities (name, city, country) VALUES ('LBS', 'London', 'England');
 
 DROP TABLE IF EXISTS students CASCADE ;
 CREATE TABLE students
@@ -56,8 +57,7 @@ VALUES ('Sara', 'Wals', 23, 'Prague', 2);
 INSERT INTO students (first_name, second_name, age, from_city, university_id)
 VALUES ('Kris', 'Bird', 19, 'Moscow', 2);
 
-
-DROP TABLE IF EXISTS students_courses;
+DROP TABLE IF EXISTS students_courses CASCADE ;
 CREATE TABLE students_courses
 (
     student_id INT NOT NULL REFERENCES students(id),

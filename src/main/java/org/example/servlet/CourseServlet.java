@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
 import org.example.model.Course;
 import org.example.service.CourseService;
 import org.example.service.SimpleService;
@@ -14,6 +15,7 @@ import org.example.servlet.dto.course.CourseDto;
 import org.example.servlet.dto.course.IncomingCourseDto;
 import org.example.servlet.mapper.course.CourseDtoMapper;
 import org.example.servlet.mapper.student.StudentListMapper;
+import org.example.servlet.utils.ServletUtils;
 import org.mapstruct.factory.Mappers;
 
 import java.io.BufferedReader;
@@ -23,8 +25,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.servlet.utils.ServletUtils.printError;
+import static org.example.servlet.utils.ServletUtils.printResult;
 
-@WebServlet(urlPatterns = "/")
+
+@WebServlet(urlPatterns =
+        {"/course/get", "/course/all","/course/delete","/course/save"})
 public class CourseServlet extends HttpServlet {
 
     private CourseService service = new CourseServiceImpl();
@@ -47,15 +53,8 @@ public class CourseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
         if (action.equals("/course/save")) {
-            StringBuilder requestBody = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(req.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    requestBody.append(line);
-                }
-            }
-            IncomingCourseDto dto = new Gson().fromJson(requestBody.toString(), IncomingCourseDto.class);
+            String requestBody = IOUtils.toString(req.getReader());
+            IncomingCourseDto dto = new Gson().fromJson(requestBody, IncomingCourseDto.class);
             service.save(courseDtoMapper.toEntity(dto));
             printResult("Object saved", resp);
         } else {
@@ -83,24 +82,5 @@ public class CourseServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));// Our Id from request
         Boolean result = service.deleteById(id);
         printResult(result.toString(),resp);
-    }
-
-    private void printResult (String result,  HttpServletResponse resp) {
-        try (PrintWriter out = resp.getWriter()) {
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
-            out.print(result);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void printError (HttpServletResponse resp) {
-        try (PrintWriter out = resp.getWriter()) {
-            resp.setCharacterEncoding("UTF-8");
-            out.print("Wrong url");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
