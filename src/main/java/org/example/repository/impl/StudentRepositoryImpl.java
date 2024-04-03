@@ -23,8 +23,12 @@ public class StudentRepositoryImpl implements StudentRepository {
     public static final String DELETE_FROM_STUDENTS =
             "DELETE FROM students WHERE id = ?";
     private ResultSetMapper<Student> studentMapper = new StudentResultSetMapperImpl();
-    private ConnectionManager connectionManager = new ConnectionManagerImpl();
+    private ConnectionManager connectionManager;
     private ResultSet resultSet;
+
+    public StudentRepositoryImpl(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 
     @Override
     public Student findById(Integer id) {

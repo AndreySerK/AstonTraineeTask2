@@ -1,8 +1,8 @@
 package org.example.repository.impl;
 
 import org.example.db.ConnectionManager;
-import org.example.model.Course;
-import org.example.repository.CourseRepository;
+import org.example.model.University;
+import org.example.repository.UniversityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -15,9 +15,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Testcontainers
-class CourseRepositoryImplTest {
+public class UniversityRepositoryImplTest {
 
-    CourseRepository courseRepository;
+    UniversityRepository universityRepository;
 
     @Container
     public static final PostgreSQLContainer<?> container =
@@ -34,40 +34,42 @@ class CourseRepositoryImplTest {
                 container.getUsername(),
                 container.getPassword()
         );
-        courseRepository = new CourseRepositoryImpl(connectionManager);
+        universityRepository = new UniversityRepositoryImpl(connectionManager);
     }
 
 
     @Test
     void findById() {
-        Course course = courseRepository.findById(1);
+        University university = universityRepository.findById(1);
 
-        assertEquals(1, course.getId());
+        assertEquals(1, university.getId());
     }
 
     @Test
     void deleteById() {
-        courseRepository.deleteById(1);
+        universityRepository.deleteById(3);
 
-        assertEquals(5, courseRepository.findAll().size());
+        assertEquals(2, universityRepository.findAll().size());
     }
 
     @Test
     void findAll() {
-        List<Course> actualCourses = courseRepository.findAll();
+        List<University> actualUniversities = universityRepository.findAll();
 
-        assertEquals(5,actualCourses.size());
+        assertEquals(2,actualUniversities.size());
     }
 
     @Test
     void save() {
-        Course course = new Course();
-        course.setCourseName("Test");
-        course.setStudyYear(2020);
-        course.setUniversityId(1);
+        University university = new University();
+        university.setName("Test");
+        university.setCountry("Test");
+        university.setCity("Test");
 
-        courseRepository.save(course);
+        universityRepository.save(university);
 
-        assertEquals(6, courseRepository.findAll().size());
+        assertEquals(3, universityRepository.findAll().size());
     }
+
+
 }

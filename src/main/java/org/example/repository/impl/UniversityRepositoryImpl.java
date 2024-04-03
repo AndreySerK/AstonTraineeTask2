@@ -33,10 +33,14 @@ public class UniversityRepositoryImpl implements UniversityRepository {
     private ResultSetMapper<Course> courseMapper = new CourseResultSetMapperImpl();
     private ResultSetMapper<Student> studentMapper = new StudentResultSetMapperImpl();
     private CourseRepository courseRepository= new CourseRepositoryImpl(new ConnectionManagerImpl());
-    private StudentRepository studentRepository = new StudentRepositoryImpl();
-    private ConnectionManager connectionManager = new ConnectionManagerImpl();
+    private StudentRepository studentRepository = new StudentRepositoryImpl(new ConnectionManagerImpl());
+    private ConnectionManager connectionManager;
     private ResultSet resultSet;
     private University university;
+
+    public UniversityRepositoryImpl(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 
     @Override
     public University findById(Integer id) {

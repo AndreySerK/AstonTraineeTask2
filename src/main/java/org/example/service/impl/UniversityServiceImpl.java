@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import org.example.db.impl.ConnectionManagerImpl;
 import org.example.model.University;
 import org.example.repository.UniversityRepository;
 import org.example.repository.impl.UniversityRepositoryImpl;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class UniversityServiceImpl implements UniversityService {
 
-    private UniversityRepository repository = new UniversityRepositoryImpl();
+    private UniversityRepository repository = new UniversityRepositoryImpl(new ConnectionManagerImpl());
 
     @Override
     public void save(University obj) {

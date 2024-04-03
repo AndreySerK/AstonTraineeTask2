@@ -1,8 +1,8 @@
 package org.example.repository.impl;
 
 import org.example.db.ConnectionManager;
-import org.example.model.Course;
-import org.example.repository.CourseRepository;
+import org.example.model.Student;
+import org.example.repository.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -15,9 +15,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Testcontainers
-class CourseRepositoryImplTest {
+public class StudentRepositoryImplTest {
 
-    CourseRepository courseRepository;
+    StudentRepository studentRepository;
 
     @Container
     public static final PostgreSQLContainer<?> container =
@@ -34,40 +34,42 @@ class CourseRepositoryImplTest {
                 container.getUsername(),
                 container.getPassword()
         );
-        courseRepository = new CourseRepositoryImpl(connectionManager);
+        studentRepository = new StudentRepositoryImpl(connectionManager);
     }
 
 
     @Test
     void findById() {
-        Course course = courseRepository.findById(1);
+        Student student = studentRepository.findById(1);
 
-        assertEquals(1, course.getId());
+        assertEquals(1, student.getId());
     }
 
     @Test
     void deleteById() {
-        courseRepository.deleteById(1);
+        studentRepository.deleteById(1);
 
-        assertEquals(5, courseRepository.findAll().size());
+        assertEquals(7, studentRepository.findAll().size());
     }
 
     @Test
     void findAll() {
-        List<Course> actualCourses = courseRepository.findAll();
+        List<Student> actualStudents = studentRepository.findAll();
 
-        assertEquals(5,actualCourses.size());
+        assertEquals(7,actualStudents.size());
     }
 
     @Test
     void save() {
-        Course course = new Course();
-        course.setCourseName("Test");
-        course.setStudyYear(2020);
-        course.setUniversityId(1);
+        Student student = new Student();
+        student.setFirstName("Test");
+        student.setSecondName("Test");
+        student.setFrom("Test");
+        student.setAge(20);
+        student.setUniversityId(1);
 
-        courseRepository.save(course);
+        studentRepository.save(student);
 
-        assertEquals(6, courseRepository.findAll().size());
+        assertEquals(8, studentRepository.findAll().size());
     }
 }
