@@ -51,6 +51,9 @@ class CourseRepositoryImplTest {
 
     @Test
     void deleteById() {
+        courseRepository.deleteById(1);
+
+        assertEquals(5, courseRepository.findAll().size());
     }
 
     @Test
@@ -62,5 +65,13 @@ class CourseRepositoryImplTest {
 
     @Test
     void save() {
+        Course course = new Course();
+        course.setCourseName("Test");
+        course.setStudyYear(2020);
+        course.setUniversityId(1);
+
+        courseRepository.save(course);
+
+        assertEquals(6, courseRepository.findAll().size());
     }
 }
