@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import org.example.db.impl.ConnectionManagerImpl;
 import org.example.model.Course;
 import org.example.repository.CourseRepository;
 import org.example.repository.impl.CourseRepositoryImpl;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class CourseServiceImpl implements CourseService {
 
-    CourseRepository repository = new CourseRepositoryImpl();
+    CourseRepository repository = new CourseRepositoryImpl(new ConnectionManagerImpl());
 
     @Override
     public void save(Course course) {

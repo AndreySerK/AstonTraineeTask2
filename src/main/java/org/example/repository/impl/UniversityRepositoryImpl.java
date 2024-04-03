@@ -32,7 +32,7 @@ public class UniversityRepositoryImpl implements UniversityRepository {
     private ResultSetMapper<University> univerMapper = new UniversityResultSetMapperImpl();
     private ResultSetMapper<Course> courseMapper = new CourseResultSetMapperImpl();
     private ResultSetMapper<Student> studentMapper = new StudentResultSetMapperImpl();
-    private CourseRepository courseRepository= new CourseRepositoryImpl();
+    private CourseRepository courseRepository= new CourseRepositoryImpl(new ConnectionManagerImpl());
     private StudentRepository studentRepository = new StudentRepositoryImpl();
     private ConnectionManager connectionManager = new ConnectionManagerImpl();
     private ResultSet resultSet;

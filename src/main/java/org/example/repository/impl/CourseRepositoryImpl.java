@@ -28,9 +28,13 @@ public class CourseRepositoryImpl implements CourseRepository {
             "DELETE FROM courses WHERE id = ?";
     private ResultSetMapper<Course> courseMapper = new CourseResultSetMapperImpl();
     private ResultSetMapper<Student> studentMapper = new StudentResultSetMapperImpl();
-    private ConnectionManager connectionManager = new ConnectionManagerImpl();
+    private ConnectionManager connectionManager;
     private ResultSet resultSet;
     private Course course;
+
+    public CourseRepositoryImpl(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 
     @Override
     public Course findById(Integer id) {
