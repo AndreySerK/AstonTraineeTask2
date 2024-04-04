@@ -8,6 +8,7 @@ import org.example.service.CourseService;
 import org.example.service.SimpleService;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class CourseServiceImpl implements CourseService {
 
@@ -32,4 +33,5 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> findAll() {
         return repository.findAll();
     }
+
 }

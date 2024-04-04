@@ -23,7 +23,7 @@ class CourseServletTest extends Mockito {
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
         when(request.getServletPath()).thenReturn("/course/get");
-        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("id")).thenReturn("2");
         when(response.getWriter()).thenReturn(writer);
 
         servlet.doGet(request,response);
@@ -66,7 +66,7 @@ class CourseServletTest extends Mockito {
         Course course = new Course();
         course.setCourseName("Physics");
         course.setStudyYear(2015);
-        course.setUniversityId(1);
+        course.setUniversityId(2);
         String json = new Gson().toJson(course);
         BufferedReader reader = new BufferedReader(new StringReader(json));
         PrintWriter writer = new PrintWriter(new StringWriter());
