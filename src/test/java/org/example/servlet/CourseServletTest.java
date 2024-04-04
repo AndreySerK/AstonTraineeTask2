@@ -5,6 +5,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.model.Course;
+import org.example.service.CourseService;
+import org.example.service.impl.CourseServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -15,7 +17,8 @@ class CourseServletTest extends Mockito {
     // mock HttpServletRequest & HttpServletResponse
     private HttpServletRequest request = mock(HttpServletRequest.class);
     private HttpServletResponse response = mock(HttpServletResponse.class);
-    private CourseServlet servlet = new CourseServlet();
+    private CourseService service = mock(CourseServiceImpl.class);
+    private CourseServlet servlet = new CourseServlet(service);
 
 
     @Test
@@ -25,6 +28,7 @@ class CourseServletTest extends Mockito {
         when(request.getServletPath()).thenReturn("/course/get");
         when(request.getParameter("id")).thenReturn("2");
         when(response.getWriter()).thenReturn(writer);
+        when(service.findById(2)).thenReturn(new Course());
 
         servlet.doGet(request,response);
 

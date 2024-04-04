@@ -25,8 +25,12 @@ import java.util.List;
         {"/student/get", "/student/all","/student/delete","/student/save"})
 public class StudentServlet extends HttpServlet {
     
-    private StudentService service = new StudentServiceImpl();
+    private StudentService service;
     private StudentDtoMapper mapper = Mappers.getMapper(StudentDtoMapper.class);
+
+    public StudentServlet(StudentService service) {
+        this.service = service;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {

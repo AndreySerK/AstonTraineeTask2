@@ -5,6 +5,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.model.Student;
+import org.example.service.StudentService;
+import org.example.service.impl.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -13,7 +15,8 @@ import java.io.*;
 class StudentServletTest extends Mockito {
     private HttpServletRequest request = mock(HttpServletRequest.class);
     private HttpServletResponse response = mock(HttpServletResponse.class);
-    private StudentServlet servlet = new StudentServlet();
+    private StudentService service = mock(StudentServiceImpl.class);
+    private StudentServlet servlet = new StudentServlet(service);
 
 
     @Test
@@ -23,6 +26,7 @@ class StudentServletTest extends Mockito {
         when(request.getServletPath()).thenReturn("/student/get");
         when(request.getParameter("id")).thenReturn("2");
         when(response.getWriter()).thenReturn(writer);
+        when(service.findById(2)).thenReturn(new Student());
 
         servlet.doGet(request,response);
 

@@ -30,10 +30,14 @@ import static org.example.servlet.utils.ServletUtils.printResult;
         {"/university/get", "/university/all","/university/delete","/university/save"})
 public class UniversityServlet extends HttpServlet {
 
-    private UniversityService service = new UniversityServiceImpl();
+    private UniversityService service;
     private UniversityDtoMapper universityDtoMapper = Mappers.getMapper(UniversityDtoMapper.class);
     private StudentListMapper studentListMapper = Mappers.getMapper(StudentListMapper.class);
     private CourseListMapper courseListMapper = Mappers.getMapper(CourseListMapper.class);
+
+    public UniversityServlet(UniversityService service) {
+        this.service = service;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
